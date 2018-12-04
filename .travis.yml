@@ -1,14 +1,5 @@
 language: node_js
 
-node_js:
-  - "6"
-  - "8"
-  - "10"
-
-install:
-  - export CXX="g++-4.8" CXX="gcc-4.8"
-  - npm install
-
 before_script:
   - wget http://mirror.bit.edu.cn/apache/rocketmq/4.3.2/rocketmq-all-4.3.2-bin-release.zip
   - unzip rocketmq-all-4.3.2-bin-release.zip
@@ -26,6 +17,13 @@ script:
 matrix:
   include:
     - dist: trusty
+      node_js:
+        - "6"
+        - "8"
+        - "10"
+      install:
+        - export CXX="g++-4.8" CXX="gcc-4.8"
+        - npm install
       addons:
         apt:
           sources:
@@ -35,6 +33,13 @@ matrix:
             - g++-4.8
             - clang
     - dist: xenial
+      node_js:
+        - "6"
+        - "8"
+        - "10"
+      install:
+        - export CXX="g++-4.8" CXX="gcc-4.8"
+        - npm install
       addons:
         apt:
           sources:
@@ -44,4 +49,13 @@ matrix:
             - g++-4.8
             - clang
     - os: osx
+      node_js:
+        - "6"
+        - "8"
+        - "10"
     - os: windows
+      node_js:
+        - "6"
+        - "8"
+        - "10"
+
