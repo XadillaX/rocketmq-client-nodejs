@@ -1,12 +1,6 @@
 language: node_js
 
-node_js:
-  - 10
-  - 8
-  - 6
-
-jdk:
-  - openjdk8
+node_js: 10
 
 before_script:
   - wget http://mirror.bit.edu.cn/apache/rocketmq/4.3.2/rocketmq-all-4.3.2-bin-release.zip
@@ -24,17 +18,10 @@ script:
 
 matrix:
   include:
-    - dist: xenial
-      install:
-        - export CXX="g++-4.8" CXX="gcc-4.8"
-        - npm install
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - gcc-4.8
-            - g++-4.8
-            - clang
+    # - os: linux
+    #   dist: trusty
+    # - os: linux
+    #   dist: xenial
+    # - os: windows
     - os: osx
-    - os: windows
+      osx_image: xcode9.3
