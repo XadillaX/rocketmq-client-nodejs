@@ -13,7 +13,6 @@ co(function *() {
         nameServer: common.nameServer,
         logFileNum: 5,
         logFileSize: 1048576000,
-        // threadCount: 1,
         logLevel: "debug"
     });
 

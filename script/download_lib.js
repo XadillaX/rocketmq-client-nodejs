@@ -14,7 +14,7 @@ const pkg = require("../package");
 
 let REGISTRY_MIRROR =
     process.env.NODE_ROCKETMQ_REGISTRY ||
-    "http://opensource-rocketmq-client.oss-cn-hangzhou.aliyuncs.com";
+    "https://opensource-rocketmq-client.oss-cn-hangzhou.aliyuncs.com";
 if(!REGISTRY_MIRROR.endsWith("/")) REGISTRY_MIRROR += "/";
 
 const CPP_SDK_VERSION = pkg.cppSDKVersion;
