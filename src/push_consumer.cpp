@@ -3,8 +3,6 @@
 #include "consumer_ack.h"
 #include "workers/push_consumer/start_or_shutdown.h"
 
-#include <queue>
-#include <string>
 using namespace std;
 
 namespace __node_rocketmq__ {
@@ -16,6 +14,8 @@ struct MessageHandlerParam
     CMessageExt* msg;
 };
 char message_handler_param_keys[5][8] = { "topic", "tags", "keys", "body", "msgId" };
+
+uv_mutex_t _get_msg_ext_column_lock;
 
 map<CPushConsumer*, RocketMQPushConsumer*> _push_consumer_map;
 
@@ -118,6 +118,7 @@ void RocketMQPushConsumer::SetOptions(Local<Object> options)
 
 NAN_MODULE_INIT(RocketMQPushConsumer::Init)
 {
+    uv_mutex_init(&_get_msg_ext_column_lock);
     Local<FunctionTemplate> tpl = Nan::New<FunctionTemplate>(New);
     tpl->SetClassName(Nan::New("RocketMQPushConsumer").ToLocalChecked());
     tpl->InstanceTemplate()->SetInternalFieldCount(1);
@@ -253,21 +254,59 @@ NAN_METHOD(RocketMQPushConsumer::SetSessionCredentials)
     info.GetReturnValue().Set(ret);
 }
 
-const char* RocketMQPushConsumer::GetMessageColumn(char* name, CMessageExt* msg)
+string RocketMQPushConsumer::GetMessageColumn(char* name, CMessageExt* msg)
 {
+    const char* orig = NULL;
+
+    uv_mutex_lock(&_get_msg_ext_column_lock);
     switch(name[0])
     {
     // topic / tags
     case 't':
-        return name[1] == 'o' ? GetMessageTopic(msg) : GetMessageTags(msg);
+        orig = name[1] == 'o' ? GetMessageTopic(msg) : GetMessageTags(msg);
+        break;
+
     // keys
-    case 'k': return GetMessageKeys(msg);
+    case 'k':
+        orig = GetMessageKeys(msg);
+        break;
+
     // body
-    case 'b': return GetMessageBody(msg);
+    case 'b':
+        orig = GetMessageBody(msg);
+        break;
+
     // msgId
-    case 'm': return GetMessageId(msg);
-    default: return NULL;
+    case 'm':
+        orig = GetMessageId(msg);
+        break;
+
+    default:
+        orig = NULL;
+        break;
     }
+
+    size_t i = 0;
+    size_t len = strlen(orig);
+    char temp[len + 1];
+    memcpy(temp, orig, sizeof(char) * (len + 1));
+    // printf("%u %u => ", orig, temp);
+
+    // TODO: strncpy and so on functions will occur macOS garbled.
+    // I don't know why
+    // for(i = 0; i < len + 1; i++)
+    // {
+    //     temp[i] = orig[i];
+    // }
+    // printf("%u %u\n", orig, temp);
+
+    // for(int i = 0; i < len; i++) {
+    //     printf("%d ", temp[i]);
+    // }
+    // printf("\n");
+    uv_mutex_unlock(&_get_msg_ext_column_lock);
+
+    return temp;
 }
 
 void close_async_done(uv_handle_t* handle)
