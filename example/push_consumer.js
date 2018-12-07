@@ -13,16 +13,17 @@ co(function *() {
         nameServer: common.nameServer,
         logFileNum: 5,
         logFileSize: 1048576000,
-        logLevel: "debug",
-        threadCount: 1
+        // threadCount: 1,
+        logLevel: "debug"
     });
 
     consumer.subscribe("test", "*");
     consumer.on("message", function(msg, ack) {
         msgs.push(msg);
         ack.done();
-        console.log(msg);
-        return;
+
+        // console.log(msg);
+        // return;
 
         if(msgs.length === common.messageCount) {
             msgs.sort(function(a, b) {
