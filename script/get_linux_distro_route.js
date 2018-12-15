@@ -48,12 +48,22 @@ function realGetLinuxDistroRoute(dist, release) {
         }
     }
 
+    if("Ubuntu Linux" === dist) {
+        assert([ 14, 16, 18 ].includes(major));
+        return `UBUNTU/${major}.04`;
+    }
+
+    if("Debian" === dist) {
+        assert(major >= 8 && major <= 10);
+        return `UBUNTU/${(major + 2) / 2}.04`;
+    }
+
     // Ubuntu Distros
     if(!NORMAL_MAP_ARRAY.includes(dist)) {
         console.error(`[rocketmq sdk] [warn] ${dist} may not supported, fallback to use Ubuntu library.`);
     }
 
-    return "UBUNTU";
+    return "UBUNTU/14.04";
 }
 
 function getLinuxDistroRoute() {
