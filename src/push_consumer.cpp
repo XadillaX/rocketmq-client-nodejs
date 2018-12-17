@@ -286,26 +286,8 @@ string RocketMQPushConsumer::GetMessageColumn(char* name, CMessageExt* msg)
         break;
     }
 
-    size_t i = 0;
-    size_t len = strlen(orig);
-    char temp[len + 1];
-
-    // TODO: strncpy / memcpy and so on functions will occur macOS garbled.
-    // I don't know why
-    for(i = 0; i < len + 1; i++)
-    {
-        temp[i] = orig[i];
-    }
-    uv_mutex_unlock(&_get_msg_ext_column_lock);
-
-    // CAUTION:
-    // HERE NOW `orig` has already been changed to garbled. I don't know why.
-    // Fortunately I've copied `orig` to `temp` via a for loop before. So
-    // returning `temp` is correct.
-    //
-    // TODO: find why and try to fix it.
-
-    return temp;
+    if(!orig) return "";
+    return orig;
 }
 
 void close_async_done(uv_handle_t* handle)
