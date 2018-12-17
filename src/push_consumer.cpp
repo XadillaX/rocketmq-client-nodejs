@@ -286,6 +286,8 @@ string RocketMQPushConsumer::GetMessageColumn(char* name, CMessageExt* msg)
         break;
     }
 
+    uv_mutex_unlock(&_get_msg_ext_column_lock);
+
     if(!orig) return "";
     return orig;
 }
