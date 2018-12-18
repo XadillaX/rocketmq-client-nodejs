@@ -22,8 +22,9 @@ matrix:
       dist: trusty
     - os: linux
       dist: xenial
-      before_script:
-        - jdk_switcher use oraclejdk8
+      jdk: openjdk8
+      env:
+        JAVA_HOME=/usr/local/lib/jvm/openjdk8/jre
     - os: windows
     - os: osx
       osx_image: xcode9.3
