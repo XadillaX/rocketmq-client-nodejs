@@ -22,7 +22,8 @@ matrix:
       dist: trusty
     - os: linux
       dist: xenial
-      jdk: openjdk8
+      script:
+        - jdk_switcher use oraclejdk8
     - os: windows
     - os: osx
       osx_image: xcode9.3
