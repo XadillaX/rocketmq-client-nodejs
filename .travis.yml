@@ -22,7 +22,7 @@ matrix:
       dist: trusty
     - os: linux
       dist: xenial
-      script:
+      before_script:
         - jdk_switcher use oraclejdk8
     - os: windows
     - os: osx
