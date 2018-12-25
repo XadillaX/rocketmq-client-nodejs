@@ -36,6 +36,7 @@ co(function *() {
             console.log(ret);
         } catch(e) {
             console.error(e);
+            console.error(e.stack);
             process.exit(4);
         }
     }

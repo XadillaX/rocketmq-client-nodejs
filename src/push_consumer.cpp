@@ -51,7 +51,7 @@ RocketMQPushConsumer::~RocketMQPushConsumer()
             _push_consumer_map.erase(consumer_ptr);
         }
     }
-    catch (...)
+    catch(...)
     {
         //
     }
@@ -161,7 +161,12 @@ NAN_METHOD(RocketMQPushConsumer::New)
     {
         consumer->SetOptions(options);
     }
-    catch (runtime_error e)
+    catch(const runtime_error e)
+    {
+        Nan::ThrowError(e.what());
+        return;
+    }
+    catch(const std::exception& e)
     {
         Nan::ThrowError(e.what());
         return;
@@ -206,7 +211,12 @@ NAN_METHOD(RocketMQPushConsumer::Subscribe)
     {
         ret = ::Subscribe(consumer_ptr, topic.c_str(), expression.c_str());
     }
-    catch (runtime_error e)
+    catch(const runtime_error e)
+    {
+        Nan::ThrowError(e.what());
+        return;
+    }
+    catch(const std::exception& e)
     {
         Nan::ThrowError(e.what());
         return;
@@ -239,18 +249,17 @@ NAN_METHOD(RocketMQPushConsumer::SetSessionCredentials)
     {
         ret = SetPushConsumerSessionCredentials(consumer_ptr, *access_key, *secret_key, *ons_channel);
     }
-    catch(runtime_error e)
+    catch(const runtime_error e)
     {
         Nan::ThrowError(e.what());
+        return;
     }
-    catch(std::exception& e)
+    catch(const std::exception& e)
     {
         Nan::ThrowError(e.what());
+        return;
     }
-    catch(rocketmq::MQException& e)
-    {
-        Nan::ThrowError(e.what());
-    }
+
     info.GetReturnValue().Set(ret);
 }
 
