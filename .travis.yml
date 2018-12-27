@@ -33,3 +33,7 @@ matrix:
       osx_image: xcode9.3
       env:
         JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/jre
+  allow_failures:
+    - os: linux
+      dist: xenial
+    - os: windows
