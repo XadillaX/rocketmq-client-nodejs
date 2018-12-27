@@ -10,7 +10,7 @@
     "install": "node ./script/download_lib.js && node-gyp rebuild"
   },
   "author": "XadillaX <i@2333.moe>",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "dependencies": {
     "co": "^4.6.0",
     "destroy": "^1.0.4",
