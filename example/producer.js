@@ -3,7 +3,7 @@
 const co = require("co");
 
 const common = require("./common");
-const Producer = require("../lib/producer");
+const Producer = require("../").Producer;
 
 co(function *() {
     const producer = new Producer("testGroup", {

@@ -5,7 +5,7 @@ const assert = require("assert");
 const co = require("co");
 
 const common = require("./common");
-const PushConsumer = require("../lib/push_consumer");
+const PushConsumer = require("../").PushConsumer;
 
 co(function *() {
     const msgs = [];
