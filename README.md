@@ -4,13 +4,18 @@ This official Node.js client is a C++ binding of [rocketmq-client-cpp](https://g
 
 > **Notice 1:** This client is still in `dev` version. Use it cautiously in production.
 
-> **Notice 2:** This SDK is now only support macOS and Ubuntu **14.04**. Ubuntu 16+ is not supported and Centos is not tested yet.
+> **Notice 2:** This SDK is now only support macOS and Ubuntu **14.04**. Ubuntu 16+ is not supported and CentOS is not tested yet.
 
 ## Installation
 
 ```shell
 $ npm install --save apache-rocketmq
 ```
+
+## Examples
+
+You may view [example/producer.js](https://github.com/apache/rocketmq-client-nodejs/blob/master/example/producer.js) and
+[example/push_consumer.js](https://github.com/apache/rocketmq-client-nodejs/blob/master/example/push_consumer.js) for quick start.
 
 ## Usage
 
@@ -120,7 +125,7 @@ producer.send(topic, body[, options][, callback]);
 
 e.g.
 
-```
+```javascript
 producer.send("test", `baz ${i}`, {
     keys: "foo",
     tags: "bar"
@@ -278,11 +283,6 @@ consumer.on("message", function(msg, ack) {
     ack.done();
 });
 ```
-
-## Examples
-
-You may view [example/producer.js](https://github.com/apache/rocketmq-client-nodejs/blob/master/example/producer.js) and
-[example/push_consumer.js](https://github.com/apache/rocketmq-client-nodejs/blob/master/example/push_consumer.js) for quick start.
 
 ## Apache RocketMQ Community
 
